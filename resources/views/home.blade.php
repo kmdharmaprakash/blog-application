@@ -18,7 +18,7 @@
                         <div class="alert alert-success">{{session('response')}}</div>
                     @endif
 
-                <div class="card-header">Dashboards</div>
+                <div class="card-header">Dashboard</div>
                 <div class="panel-body">
                     <div class="col-md-4">
                         {{----}}
