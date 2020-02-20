@@ -34,6 +34,7 @@ Route::post('/addprofile','ProfileController@addProfile');
 Route::get('/view/{id}','PostController@view');
 Route::get('/edit/{id}','PostController@edit');
 Route::post('/editpost/{id}','PostController@update');
+Route::get('/delete/{id}','PostController@deletePost');
 
 
 });
