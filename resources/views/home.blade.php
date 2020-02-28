@@ -97,7 +97,7 @@
                     @endforeach
                     @endif
 
-
+                    {{$posts->links()}}
 
                 </div>
             </div>

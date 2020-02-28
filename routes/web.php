@@ -36,6 +36,13 @@ Route::get('/edit/{id}','PostController@edit');
 Route::post('/editpost/{id}','PostController@update');
 Route::get('/delete/{id}','PostController@deletePost');
 
+Route::get('/category/{id}','PostController@category');
+
+Route::get('/like/{id}','PostController@like');
+Route::get('/dislike/{id}','PostController@dislike');
+
+
+
 
 });
 

@@ -28,27 +28,7 @@
                         <img class="blog-image" src="{{$post->post_image}}">
                         <p class="blog-font">{{substr($post->post_body,0,150)}}</p>
 
-                        <ul class="">
-                            <li role="presentation">
-                                <a href="{{url("/like/{$post->id}")}}">
-                                    <span class="fa fa-thumbs-up">Like ({{$likeCtr}})</span>
-                                </a>
-                            </li>
-                            </ul> 
-                            <ul>          
-                            <li role="presentation">
-                                <a href="{{url("/dislike/{$post->id}")}}">
-                                    <span class="fa fa-eye">Dislike ({{$dislikeCtr}})</span>
-                                </a>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li role="presentation">
-                                <a href="{{url("/comment/{$post->id}")}}">
-                                    <span class="fa fa-trash">Comment ()</span>
-                                </a>
-                            </li>
-                        </ul><br>
+                       
 
                         <cite style="">Posted on: {{date('M j, Y H:i', strtotime($post->updated_at))}}</cite>
                         <hr>
