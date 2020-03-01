@@ -12,6 +12,8 @@ use App\Category;
 use App\Post;
 use App\Like;
 use App\Dislike;
+use App\Comment;
+use App\Profile;
 
 class PostController extends Controller
 {
@@ -57,12 +59,20 @@ class PostController extends Controller
                 ->count(); //for likes 
 
       $dislikeCtr = Dislike::where(['post_id'=>$post_id])
-                    ->count();
-
+                    ->count(); //dislikes
 
       $categories = Category::all();
+
+      $comments = DB::table('users')->join('comments',
+                    'users.id','=','comments.user_id')
+                  ->join('posts','comments.post_id','=','posts.id')
+                  ->where(['post_id' => $post_id])
+                  ->get(); //for comments
+                  //return $comments;
+                  //exit();
+
       return view('posts.view',['posts'=>$posts,'categories' => $categories,
-                                'likeCtr' => $likeCtr, 'dislikeCtr' => $dislikeCtr
+                                'likeCtr' => $likeCtr, 'dislikeCtr' => $dislikeCtr, 'comments' => $comments 
     ]);
     }
     
@@ -172,5 +182,37 @@ class PostController extends Controller
         }
 
     }
-   
+
+    public function comment(Request $request,$post_id){
+      //return $post_id;
+
+      $this->validate($request, [
+            'comment' => 'required',
+      ]);
+
+      $comment = new Comment;
+      $comment->user_id=Auth::user()->id;
+      $comment->post_id=$post_id;
+      $comment->comment = $request->input('comment');
+      $comment->save();
+      return redirect("/view/{$post_id}")->with('response','comment added succesfully');
+    }
+    public function search(Request $request){
+      //return $request;
+      $user_id = Auth::user()->id;
+      $profile = Profile::find($user_id);
+      $keyword = $request->input('search');
+  //$posts = Post::where('post_title','LIKE','%'.$keyword.'%')->get();//this is the method which we can view the post according to that we search a post name in search bar, but i changed to category type which below.
+      $posts   = DB::table('posts')->join('categories','posts.category_id','='         ,'categories.id')
+                 ->select('posts.*','categories.*')
+                 ->where('category','LIKE','%'.$keyword.'%')
+                 ->get();//here i changed which we can view the post according to search by category method..
+                 //if u want search by post method look above..
+
+                
+      //return $posts;
+      //exit();
+      return view('posts.searchposts', ['profile'=>$profile ,'posts'=>$posts]);
+    }
+
 }

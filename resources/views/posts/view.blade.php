@@ -6,6 +6,12 @@
         <div class="col-md-8">
             <div class="card">
 
+
+                    @if(session('response'))
+                        <div class="alert alert-success">{{session('response')}}</div>
+                    @endif
+
+
                 <div class="card-header">Dashboard</div>
                 <div class="panel-body">
                     <div class="col-md-4">
@@ -50,12 +56,34 @@
                             </li>
                         </ul><br>
 
+                         <form method="POST" action='{{url ("/comment/{$post->id}")}}'>
+                    @csrf
+                    <div class="form-group">
+                        <textarea id="comment" rows="6" class="form-control" name="comment" required autofocus=""></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-lg btn-block">Post Comment</button>
+                    </div>
+
+                    </form>
+
+                    <h3>Comments</h3>
+
+                    @if(count($comments) > 0)
+                    @foreach($comments as $comment)
+                        <p>{{$comment->comment}}</p>
+                        <p>posted by: {{$comment->name}}</p>
+                        <hr/>
+                    @endforeach
+                    @endif
                         <cite style="">Posted on: {{date('M j, Y H:i', strtotime($post->updated_at))}}</cite>
                         <hr>
                         @endforeach
                     @else
                     <p>no post available</p>
                     @endif
+
+
 
                     </div>
 
